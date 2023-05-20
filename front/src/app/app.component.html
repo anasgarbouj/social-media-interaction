@@ -1,0 +1,41 @@
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.7/css/all.css">
+
+</head>
+
+<app-navbar ></app-navbar>
+<div class="container-fluid">
+<div class="row">
+<div class="col-3">
+    <app-left></app-left>
+ </div> 
+<div class="col-6">
+    
+    <app-cover></app-cover>  
+    <router-outlet></router-outlet>
+</div> 
+
+
+
+<div class="col-3 score">
+
+
+<app-score></app-score>
+<app-right></app-right>
+</div>
+
+</div>
+</div>
+
+
+
+
+<app-footer></app-footer>
+
+<!--
+
+-->
+
+
+

@@ -1,0 +1,72 @@
+<div class="container" *ngIf="clubData">
+    <form >
+      <div class="form-group">
+        <label for="fullName">Full Name</label>
+        <input type="text" id="fullName" [(ngModel)]="clubData.fullName" name="fullName" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="text" id="email" [(ngModel)]="clubData.email" name="email" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  <div class="form-group">
+    <label for="password">password</label>
+      <div class="input-group">
+        <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="clubData.password" name="password" required>
+        <div class="input-group-append">
+          <button class="btn" (click)="togglePasswordVisibility()">
+            <i class="fa" [ngClass]="{'fa-eye': showPassword, 'fa-eye-slash': !showPassword} "></i>
+          </button>
+        </div>
+        
+      </div>
+      <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+    </div>
+  
+      <div class="form-group">
+        <label for="dateCreation">Date Creation</label>
+        <input type="text" id="dateCreation" [(ngModel)]="clubData.dateCreation" name="dateCreation" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="establishment">Establishment</label>
+        <input type="text" id="establishment" [(ngModel)]="clubData.establishment" name="establishment" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="category">Category</label>
+        <input type="text" id="category" [(ngModel)]="clubData.category" name="category" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="country">Country</label>
+        <input type="text" id="country" [(ngModel)]="clubData.country" name="country" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="workFiled">Work Field</label>
+        <input type="text" id="workFiled" [(ngModel)]="clubData.workFiled" name="workFiled" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="canJoin">Can Join</label>
+        <input type="text" id="canjoin" [(ngModel)]="clubData.canJoin" name="canJoin" />
+        <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+      </div>
+  
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description" rows="4" [(ngModel)]="clubData.description" name="description">{{clubData.description}}</textarea>
+      <img (click)="onEditClick($event)" class="edit-img" src="assets/edit.png" alt="Edit" />
+    </div>
+
+    <button type="submit" (click)="onSave()">Save</button>
+  </form>
+</div>

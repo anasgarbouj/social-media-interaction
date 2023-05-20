@@ -1,0 +1,128 @@
+
+<style>
+    .btn-group {
+      width: 100%;
+    }
+    
+</style>
+<div class="container-fluid">
+<div class="post-input" (click)="openCreateModal()">
+    <div class="input-container">
+        <div class="logo">
+            <img src="assets/logo.png" alt="logo">
+        </div>
+        <textarea class="post-textarea" placeholder="What's on your mind?" rows="1"></textarea>
+    </div>
+    <div class="post-actions">
+        <button class="left-action">Event</button>
+        <button class="center-action">Photo</button>
+        <button class="right-action">Video</button>
+    </div>
+</div>
+
+<div class="post-display">
+    <div class="post" *ngFor="let post of posts">
+        <div class="post-header">
+           
+            <div class="user-logo">
+                <img [src]="post.userLogo" alt="logo">
+            </div>
+
+            <div class="user-info">
+                <p class="username">{{post.clubName}}</p>
+                <p class="post-time">{{post.postTime}}</p>
+            </div>
+        
+            <div class="post-options">
+                <span class="ellipsis" (click)="togglePostOptions(post)">&#8942;</span>
+                <div *ngIf="post.showOptions" class="post-options-dropdown show-dropdown">
+                    <button (click)="openUpdateModal(post)">Update</button>
+                    <button (click)="deletePost(post)">Delete</button>
+                </div>
+            </div>
+              
+        </div>
+        <div class="post-content">
+            <p>{{post.content}}</p>
+            <img *ngIf="post.imageUrl" [src]="post.imageUrl" alt="photo">
+            <video *ngIf="post.videoUrl" [src]="post.videoUrl" class="post-video" controls></video>
+        </div>
+        <div class="post-actions">
+            <button class="left-action" (click)="toggleLike(post)">
+                {{post.liked ? "Unlike" : "Like"}}{{post.likesCount > 0 ? " (" + post.likesCount + ")" : ""}}
+              </button>
+            <button>Comment</button>
+            <button class="right-action" (click)="sharePost(post)">
+                Share{{post.sharesCount > 0 ? " (" + post.sharesCount + ")" : ""}}
+              </button>
+        </div>
+        <div class="post-comment">
+            <div class="comment-logo">
+                <img src="assets/logo.png" alt="logo">
+            </div>
+            <textarea
+                class="comment-textarea"
+                placeholder="Write a comment..."
+                rows="1"
+                [(ngModel)]="userComment"
+            ></textarea>
+            <button (click)="submitComment(post)" class="commenter">comment</button>
+        </div>
+        <div *ngFor="let comment of post.comments | slice:0:displayedCommentsCount">
+            <div class="comment">
+              <div class="comment-logo">
+                <img src="assets/logo.png" alt="logo">
+              </div>
+              <div *ngIf="!comment.editing" class="comment-text">{{comment.text}}</div>
+              <textarea
+                *ngIf="comment.editing"
+                class="comment-textarea"
+                placeholder="Edit your comment..."
+                rows="1"
+                [(ngModel)]="comment.text"
+                (keyup.enter)="comment.editing = false"
+              ></textarea>
+              <div class="comment-options">
+                <span class="ellipsis" (click)="toggleOptions(comment)">&#8942;</span>
+                <div *ngIf="comment.showOptions" class="options">
+                  <button (click)="editComment(comment)">Edit</button>
+                  <button (click)="deleteComment(post, comment)">Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        <div class="more">
+            <button *ngIf="post.comments.length > displayedCommentsCount" (click)="showMoreComments()" style="color: green;">View more</button>
+            <button *ngIf="displayedCommentsCount > 2" (click)="hideMoreComments()" style="color: red;">Hide more</button>
+        </div>
+    </div>
+</div>
+<br>
+<br>
+
+<div class="modal custom-modal-position" id="myModal">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="createPostModalLabel">Create Post</h5>
+                <button type="button" class="btn-close-white" data-dismiss="modal" aria-label="Close" style="border-radius: 15px;" (click)="closeModel()">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <textarea class="form-control" placeholder="What's on your mind?"            rows="3" [(ngModel)]="content"></textarea>
+                <img *ngIf="uploadedImageUrl" [src]="uploadedImageUrl" alt="Uploaded Image Preview" class="uploaded-image-preview"/>
+                <video *ngIf="uploadedVideoUrl" [src]="uploadedVideoUrl" class="uploaded-video-preview" controls></video>
+                <div class="btn-group" role="group" style="padding-top: 10px;">
+                    <button type="button" class="btn" style="background: #5A54FF;" >Event</button>
+                    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" accept="image/*,video/*" />
+                    <button type="button" class="btn" style="background: #5A54FF;" (click)="openFileInput(fileInput)">Photo</button>
+                    <button type="button" class="btn" style="background: #5A54FF;" (click)="openFileInput(fileInput)">Video</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" style="width: 100%;" (click)="publishPost()">Publish</button>
+            </div>
+        </div>
+    </div>
+</div>
