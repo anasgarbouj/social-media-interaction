@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Post , Comment} from '../models/post.model'; // Update the import path
+import { Post , Comment , LikeShareResponse} from '../models/post.model'; // Update the import path
 import { HttpHeaders } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -13,6 +13,7 @@ export interface CreatePostResponse {
   message: string;
   post: Post;
 }
+
 @Injectable({
   providedIn: 'root'
 })
@@ -59,6 +60,12 @@ updateComment(postId: string, commentIndex: number, updatedComment: string): Obs
 // Delete comment
 deleteComment(postId: string, commentIndex: number): Observable<{ message: string; post: Post }> {
   return this.http.delete<{ message: string; post: Post }>(`${this.API_URL}/${postId}/comments/${commentIndex}`);
+}
+likePost(postId: string): Observable<LikeShareResponse> {
+  return this.http.put<LikeShareResponse>(`${this.API_URL}/${postId}/like`, {});
+}
+sharePost(postId: string): Observable<LikeShareResponse> {
+  return this.http.put<LikeShareResponse>(`${this.API_URL}/${postId}/share`, {});
 }
 
 }

@@ -14,6 +14,8 @@ router.post('/:postId/comments', postController.addComment);
 router.get('/:postId/comments', postController.getComments); 
 router.put('/:postId/comments/:commentIndex', postController.updateComment);
 router.delete('/:postId/comments/:commentIndex', postController.deleteComment);
+router.put('/:postId/like', postController.likePost);
+router.put('/:postId/share', postController.sharePost);
 
 
 

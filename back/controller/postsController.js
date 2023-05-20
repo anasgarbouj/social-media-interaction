@@ -154,3 +154,42 @@ exports.deleteComment = async (req, res, next) => {
     res.status(500).json({ message: 'Failed to delete comment', error });
   }
 };
+exports.likePost = async (req, res, next) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+      return;
+    }
+
+    // increment the likesCount
+    post.likesCount++;
+    post.liked = true;
+    await post.save();
+
+    res.status(200).json({ message: 'Post liked successfully', post });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to like post', error });
+  }
+};
+exports.sharePost = async (req, res, next) => {
+  const postId = req.params.postId;
+
+  try {
+    const post = await Post.findById(postId);
+    if (!post) {
+      res.status(404).json({ message: 'Post not found' });
+      return;
+    }
+
+    // increment the sharesCount
+    post.sharesCount++;
+    await post.save();
+
+    res.status(200).json({ message: 'Post shared successfully', post });
+  } catch (error) {
+    res.status(500).json({ message: 'Failed to share post', error });
+  }
+};

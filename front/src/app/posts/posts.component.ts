@@ -1,7 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { PostService, CreatePostResponse , DeletePostResponse} from '../services/post.service';
-import { Post, Comment } from '../models/post.model';
+import { Post, Comment ,LikeShareResponse} from '../models/post.model';
 
 
 
@@ -92,8 +92,19 @@ uploadedVideoUrl: string | null = '';
 
 
   sharePost(post: Post): void {
-    // Implement sharing functionality here, if needed.
-    post.sharesCount++;
+    if (post._id) {
+      this.postService.sharePost(post._id).subscribe(
+        (response: LikeShareResponse) => {
+          console.log('Post shared:', response);
+          post.sharesCount = response.post.sharesCount;
+        },
+        (error) => {
+          console.error('Failed to share post:', error);
+        }
+      );
+    } else {
+      console.error('Post _id is undefined');
+    }
   }
   publishPost(): void {
     if (this.selectedPost) {
@@ -179,15 +190,22 @@ submitComment(post: Post): void {
 
 
 
-
-  toggleLike(post: Post): void {
-    if (post.liked) {
-      post.likesCount--;
-    } else {
-      post.likesCount++;
-    }
-    post.liked = !post.liked;
+toggleLike(post: Post): void {
+  if (post._id) {
+    this.postService.likePost(post._id).subscribe(
+      (response: LikeShareResponse) => {
+        console.log('Post liked:', response);
+        post.likesCount = response.post.likesCount;
+        post.liked = !post.liked;
+      },
+      (error) => {
+        console.error('Failed to like post:', error);
+      }
+    );
+  } else {
+    console.error('Post _id is undefined');
   }
+}
 
   toggleOptions(comment: Comment): void {
     comment.showOptions = !comment.showOptions;
